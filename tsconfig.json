@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "assets/*": ["src/assets/*"],
+      "components/*": ["src/components/*"],
+      "middleware/*": ["src/middleware/*"],
+      "models/*": ["src/models/*"],
+      "modules/*": ["src/modules/*"],
+      "routes/*": ["src/routes/*"]
+    },
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noResolve": false,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    // "keyofStringsOnly": true,
+    "checkJs": false,
+    "maxNodeModuleJsDepth": 0,
+    "outDir": "./dist/",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true
+  },
+  "typeRoots": ["node_modules/@types", "src/@types", "@types"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "./node_modules/**/*"
+  ],
+  "include": ["src/**/*", "@types"]
+}

@@ -1,0 +1,1 @@
+export const ContainerPadding = "10px";

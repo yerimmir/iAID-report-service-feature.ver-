@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  iaid-reportform-image:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "iaid-reportform-image:latest"
+    container_name: "iaid-reportform-image"
+    restart: always
+    environment:
+      PORT: 3000
+    ports:
+      - "${PORT}:3000"
