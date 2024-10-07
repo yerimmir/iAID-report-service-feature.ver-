@@ -19,6 +19,8 @@ import {
   IEvaluation,
   DefaultMeasurement,
   DefaultStatisticalAnalysis,
+  StatisticalAnalysisType,
+  SarcopeniaResultType,
 } from "models/sarcopenia";
 import { Spacer } from "components/atoms/Spacer/Spacer";
 import PropTypes from "prop-types";
@@ -26,7 +28,7 @@ import SarcopeniaTable from "components/organisms/SarcopeniaTable/SarcopeniaTabl
 
 import MuscleAgeTable from "components/organisms/MuslceAgeTable/MuscleAgeTable";
 import Timeline from "components/organisms/Timeline/Timeline";
-import RightArrow from "assets/svg/right-arrow";
+import QRCode from "../../assets/images/qrcode_link-to-pdf.png"
 
 export interface ReportProps {
   /**
@@ -67,12 +69,23 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    marginTop: "10px",
+    // marginBottom : "10px"
   },
 
   // main
   mainSectionSytle: {
     display: "flex",
     padding: "5px",
+  },
+
+  footerSectionStyle: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: "450px",
   },
 
   // container
@@ -95,16 +108,18 @@ export const Report: React.FC<ReportProps> = (props) => {
   const title = props.title;
   const personalInfo = props.personalInfo;
 
-  const sarcopeniaDatas = props.evaluations[0]["sarcopenia"];
-  sarcopeniaDatas.splice(0, sarcopeniaDatas.length - 4); // 최근 4개만 출력되도록 설정
+  const sarcopeniaDatas = props.evaluations[props.evaluations.length - 1]["sarcopenia"];
+  sarcopeniaDatas.splice(0, sarcopeniaDatas.length - 4); // 최근 4개만 출력되도록 설정, 현재 그래프에 1개만 출력하므로, 사용 x
   const recentData = sarcopeniaDatas[sarcopeniaDatas.length - 1];
   const targetSliceLevel = recentData.diagnosis.targetSliceLevel;
   const measurement = recentData.diagnosis.measurement;
   const sma_height2 = recentData.diagnosis.statisticalAnalysis[0];
-  const muscle_age = recentData.diagnosis.statisticalAnalysis[1].value;
+  const muscle_age = recentData.diagnosis.statisticalAnalysis[1].value
+  const sma_bmi = recentData.diagnosis.statisticalAnalysis[2];
 
   // console.log("evaluation1",props.evaluations[0]["sarcopenia"][0].diagnosis.measurement);
   console.log("evaluation2",props.evaluations[0]["sarcopenia"][0].diagnosis.statisticalAnalysis);
+  console.log("sliceLevel", targetSliceLevel)
   /**
    * graph에 맞는 data 넘겨주기
    */
@@ -175,7 +190,7 @@ export const Report: React.FC<ReportProps> = (props) => {
           <Typography
             text={title}
             textStylePreset={"caption"}
-            containerStyle={(styles.headerTitleContainerStyle, { flex: 2 })}
+            containerStyle={(styles.headerTitleContainerStyle, { flex: 3 })}
           />
           <PersonalInfo
             personalInfo={personalInfo}
@@ -188,10 +203,10 @@ export const Report: React.FC<ReportProps> = (props) => {
         <SarcopeniaTable
           targetSliceLevel={targetSliceLevel}
           measurement={measurement}
-          statisticalAnalysis={sma_height2}
+          statisticalAnalysis={[sma_height2, sma_bmi]}
         ></SarcopeniaTable>
         <Spacer direction="row" margin="5px" />
-        <MuscleAgeTable
+        {/* <MuscleAgeTable
           age={personalInfo.age >= 0 ? personalInfo.age : 0}
           muscle_age={muscle_age}
         ></MuscleAgeTable>
@@ -201,7 +216,10 @@ export const Report: React.FC<ReportProps> = (props) => {
           tableAttrs={tableAttrs}
           tableItemDatas={tableItemDatas}
           itemsInRow={itemsInRow}
-        />
+        /> */}
+      </View>
+      <View style={styles.footerSectionStyle}>
+        <Splitter lineLeftStyle={{width: '0'}} lineRightStyle={{width: "100%"}}/>
       </View>
     </View>
   );

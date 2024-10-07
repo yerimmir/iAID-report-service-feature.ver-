@@ -1,17 +1,17 @@
-import { Image, StyleSheet, View } from "@react-pdf/renderer";
-import { Spacer } from "components/atoms/Spacer/Spacer";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image } from "@react-pdf/renderer";
 import Typography from "components/atoms/Typography/Typography";
-import BulletPoint from "components/molecules/BulletPoint/BulletPoint";
-import { KeyValue } from "components/molecules/KeyValue/KeyValue";
 import { Table } from "components/molecules/Table/Table";
+import { KeyValue } from "components/molecules/KeyValue/KeyValue";
+import { setNoImage } from "modules/checkError";
 import {
   IMeasurement,
-  IStatisticalAnalysis,
   SarcopeniaResultType,
+  IStatisticalAnalysis,
 } from "models/sarcopenia";
-import { setNoImage } from "modules/checkError";
+import { Spacer } from "components/atoms/Spacer/Spacer";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import BulletPoint from "components/molecules/BulletPoint/BulletPoint";
 import { ContainerPadding } from "../../../constants";
 
 export interface SarcopeniaTableProps {
@@ -20,7 +20,7 @@ export interface SarcopeniaTableProps {
 
   targetSliceLevel?: number;
   measurement?: IMeasurement;
-  statisticalAnalysis?: IStatisticalAnalysis;
+  statisticalAnalysis?: IStatisticalAnalysis[];
 }
 
 const styles = StyleSheet.create({
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
   },
   statisticalAnalysisTableStyle: {
     height: "60 px",
-    paddingTop: ContainerPadding,
-    paddingBottom: ContainerPadding,
+    // paddingTop: ContainerPadding,
+    // paddingBottom: ContainerPadding,
   },
   sarcopeniaTableColumnContainerStyle: {
     display: "flex",
@@ -94,7 +94,7 @@ const convertToMeasurementItems = (measurement) => {
     let SFA =
       Math.round(subcutaneousFatValue * 10000) / 10000 + subcutaneousFat.unit;
 
-    let SMAImage = muscle.image ? muscle.image : setNoImage();
+    let SMAImage = sma.image ? sma.image : setNoImage();
     let VFAImage = visceralFat.image ? visceralFat.image : setNoImage();
     let SFAImage = subcutaneousFat.image ? subcutaneousFat.image : setNoImage();
 
@@ -142,72 +142,118 @@ const convertToMeasurementItems = (measurement) => {
 };
 const convertToStatisticalAnalysis = (statisticalAnalysis) => {
   if (!!statisticalAnalysis) {
-    let tscore = statisticalAnalysis.tscore;
-    let value = statisticalAnalysis.value;
-    let result = statisticalAnalysis.result;
+    let height2Tscore = statisticalAnalysis[0].tscore;
+    let height2Value = statisticalAnalysis[0].value;
+    let height2Result = statisticalAnalysis[0].result;
+    let bmiTscore = statisticalAnalysis[1].tscore;
+    let bmiValue = statisticalAnalysis[1].value;
+    let bmiResult = statisticalAnalysis[1].result;
 
-    switch (result) {
+    switch (height2Result) {
       case SarcopeniaResultType.NORMAL:
-        result = "정상";
+        height2Result = "정상";
         break;
       case SarcopeniaResultType.SARCOPENIA:
-        result = "근감소증";
+        height2Result = "근감소증";
         break;
     }
+    switch (bmiResult) {
+      case SarcopeniaResultType.NORMAL:
+        bmiResult = "정상";
+        break;
+      case SarcopeniaResultType.SARCOPENIA:
+        bmiResult = "근감소증";
+        break;
+    }
+
 
     let newItems = [];
     newItems.push(
       {
+        header: (
+          <>
+          <Spacer direction="col" margin="1px" />
+          <View style={styles.sarcopeniaTableColumnContainerStyle}></View>
+          <Spacer direction="col" margin="1px" />
+          </>
+        ),
         value: (
           <View style={styles.sarcopeniaTableColumnContainerStyle}>
-            <Typography
-              textStylePreset="attribute_medium"
-              text=" "
-            ></Typography>
-            <Spacer direction="row" margin="10px"></Spacer>
             <Typography
               textStylePreset="attribute_medium"
               text="SMA / Height²"
             ></Typography>
+            <Spacer direction="row" margin="5px"></Spacer>
+            <Typography
+              textStylePreset="attribute_medium"
+              text="SMA / BMI"
+            ></Typography>
           </View>
         ),
       },
       {
-        value: (
+        header: (
+          <>
+          <Spacer direction="col" margin="1px" />
           <View style={styles.sarcopeniaTableColumnContainerStyle}>
-            <Typography
+          <Typography
               textStylePreset="attribute_medium"
-              text="T-Score = -2.0"
+              text="T-Score = -2.0 기준"
               textAlign="center"
             ></Typography>
-            <Spacer direction="row" margin="10px"></Spacer>
-            <Typography text={tscore} textAlign="center"></Typography>
+        </View>
+        <Spacer direction="col" margin="1px" />
+        </>
+        ),
+        value: (
+          <View style={styles.sarcopeniaTableColumnContainerStyle}>
+            <Typography text={height2Tscore} textAlign="center"></Typography>
+            <Spacer direction="row" margin="5px"></Spacer>
+            <Typography text={bmiTscore} textAlign="center"></Typography>
           </View>
         ),
       },
       {
-        value: (
+        header: (
+          <>
+          <Spacer direction="col" margin="1px" />
           <View style={styles.sarcopeniaTableColumnContainerStyle}>
             <Typography
-              textStylePreset="attribute_medium"
-              text="측정 결과"
-              textAlign="center"
-            ></Typography>
-            <Spacer direction="row" margin="10px"></Spacer>
-            <Typography text={value} textAlign="center"></Typography>
+                textStylePreset="attribute_medium"
+                text="측정 결과"
+                textAlign="center"
+              ></Typography>
+          </View>
+          <Spacer direction="col" margin="1px" />
+          </>
+        ),
+        value: (
+          <View style={styles.sarcopeniaTableColumnContainerStyle}>
+            <Typography text={height2Value} textAlign="center"></Typography>
+            <Spacer direction="row" margin="5px"></Spacer>
+            <Typography text={bmiValue} textAlign="center"></Typography>
           </View>
         ),
       },
       {
-        value: (
+        header: (
+          <>
+          <Spacer direction="col" margin="1px" />
           <View style={styles.sarcopeniaTableColumnContainerStyle}>
             <Typography
-              textStylePreset="attribute_medium"
-              text="근감소증 여부"
-              textAlign="center"
-            ></Typography>
-            <Spacer direction="row" margin="10px"></Spacer>
-            <Typography text={result} textAlign="center"></Typography>
+                textStylePreset="attribute_medium"
+                text="근감소증 여부"
+                textAlign="center"
+              ></Typography>
+          </View>
+          <Spacer direction="col" margin="1px" />
+          </>
+        ),
+        value: (
+          <View style={styles.sarcopeniaTableColumnContainerStyle}>
+            <Typography text={height2Result} textAlign="center"></Typography>
+            <Spacer direction="row" margin="5px"></Spacer>
+            <Typography text={bmiResult} textAlign="center"></Typography>
           </View>
         ),
       }
@@ -241,8 +287,9 @@ export const SarcopeniaTable: React.FC<SarcopeniaTableProps> = (props) => {
 
   return (
     <View style={[styles.containerStyle, props.containerStyle]}>
-      <BulletPoint title="복부 인공지능 분석 결과" />
-      {/* <View style={styles.headerContainerStyle}>
+      {/* <BulletPoint title="복부 인공지능 분석 결과" /> */}
+      <View style={styles.headerContainerStyle}>
+      <Spacer direction="col" margin="3px" />
         <Typography
           text="근감소증 분석"
           textStylePreset="attribute_medium"
@@ -251,16 +298,16 @@ export const SarcopeniaTable: React.FC<SarcopeniaTableProps> = (props) => {
         <Spacer direction="col" margin="1px" />
         <Typography text={L3SliceLevel}></Typography>
       </View>
-      <Spacer direction="row" /> */}
+      <Spacer direction="row" />
       <Table
         containerStyle={styles.measurementTableStyle}
         items={measurementItems}
       />
       <Spacer direction="row" margin="5px" />
-      <BulletPoint title="근감소증 분석 결과" />
+      {/* <BulletPoint title="근감소증 분석 결과" /> */}
       <Table
         containerStyle={styles.statisticalAnalysisTableStyle}
-        valueOnly={true}
+        // valueOnly={true}
         items={statisticalAnalysisItems}
       ></Table>
     </View>

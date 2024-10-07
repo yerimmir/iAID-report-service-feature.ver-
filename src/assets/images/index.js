@@ -8,6 +8,9 @@ import NoImage from "assets/images/noImage.png";
 import Chart from "assets/images/chart_example.jpg";
 import SmaBmi from "assets/images/sma_bmi.png";
 
+// Qr image
+import QRImage from "assets/images/qrcode_link-to-pdf.jpg";
+
 export {
   NoImage,
   Chart,
@@ -15,4 +18,5 @@ export {
   AnalysisResultImage_SMA,
   AnalysisResultImage_VFA,
   AnalysisResultImage_SFA,
+  QRImage,
 };

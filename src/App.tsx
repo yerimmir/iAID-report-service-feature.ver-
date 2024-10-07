@@ -27,6 +27,7 @@ export const App: React.FC = (props) => {
     gender: GenderType.M,
     height: 180,
     weight: -80,
+    qrcode: ''
   };
   const evaluations: IEvaluation[] = [
     {
@@ -65,7 +66,7 @@ export const App: React.FC = (props) => {
             {
               type: StatisticalAnalysisType.MUSCLE_AGE,
               value: 31
-            }
+            },
           ]
           },
         },
@@ -217,7 +218,13 @@ export const App: React.FC = (props) => {
             {
               type: StatisticalAnalysisType.MUSCLE_AGE,
               value: 31
-            }
+            },
+            {
+              type: StatisticalAnalysisType.SMA_BMI,
+              tscore: 4.97,
+              value: 5.6,
+              result: SarcopeniaResultType.NORMAL
+          }
           ]
           },
         },

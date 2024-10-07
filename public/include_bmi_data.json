@@ -1,0 +1,77 @@
+{
+    "evaluations": [
+        {
+            "sarcopenia": [
+                {
+                    "target": "abdomen",
+                    "diagnosis": {
+                        "measurement": {
+                            "subcutaneousFat": {
+                                "value": 99.66446141019983,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "visceralFat": {
+                                "value": 156.0926150828251,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "muscle": {
+                                "value": 146.3436361080288,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "ima": {
+                                "value": 11.99773764757008,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "lama": {
+                                "value": 34.494040494194394,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "nama": {
+                                "value": 99.8518579662643,
+                                "unit": "cm²",
+                                "image": ""
+                            },
+                            "sma": {
+                                "value": 134.3458984604587,
+                                "unit": "cm²",
+                                "image": ""
+                            }
+                        },
+                        "targetSliceLevel": 48,
+                        "statisticalAnalysis": [
+                            {
+                                "type": "sma_height2",
+                                "tscore": 39.8,
+                                "value": 41.5,
+                                "result": "normal"
+                            },
+                            {
+                                "type": "muscle_age",
+                                "value": 83
+                            },
+                            {
+                                "type": "sma_bmi",
+                                "tscore": 4.97,
+                                "value": 5.6,
+                                "result": "normal"
+                            }
+                        ]
+                    },
+                    "date": "2016-12-21"
+                }
+            ]
+        }
+    ],
+    "personalInfo": {
+        "gender": "Male",
+        "height": 180,
+        "age": 32,
+        "weight": 80,
+        "name": "Stomach118"
+    }
+}

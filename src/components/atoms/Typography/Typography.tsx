@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 const presetStyles = StyleSheet.create({
   caption: {
     // Page 제목 (글씨크기 35)
-    fontSize: 35,
+    fontSize: 40,
     color: "#395b99",
     fontWeight: "bold",
   },

@@ -79,7 +79,7 @@ export const Table: React.FC<TableProps> = (props) => {
         </View>
     ) : (
         <View style={[styles.containerStyle, props.containerStyle]}>
-            <View style={styles.headerContainerStyle}>
+            <View style={[styles.headerContainerStyle]}>
                 {props.items?.map((item, key) => {
                     return <View key={key}>{item.header}</View>;
                 })}

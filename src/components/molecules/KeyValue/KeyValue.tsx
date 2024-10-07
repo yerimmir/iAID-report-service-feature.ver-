@@ -28,6 +28,7 @@ export interface KeyValueProps {
     // value(Typhography)
     valueLabelStyle?: object;
     valueLabelContainerStyle?: object;
+    valueAlign?: "center" | "left" | "right";
 
     // container
     containerStyle?: object;
@@ -99,6 +100,7 @@ export const KeyValue: React.FC<KeyValueProps> = (props) => {
                 ></View>
                 <Typography
                     text={props.data.value}
+                    textAlign={props.valueAlign}
                     textStylePreset={"value_medium"}
                     containerStyle={[
                         styles.valueLabelContainerStyle,
@@ -129,6 +131,7 @@ export const KeyValue: React.FC<KeyValueProps> = (props) => {
                 <Typography
                     text={props.data.value}
                     textStylePreset={"value_medium"}
+                    textAlign={props.valueAlign}
                     containerStyle={{
                         ...styles.valueLabelContainerStyle,
                         ...props.valueLabelContainerStyle,

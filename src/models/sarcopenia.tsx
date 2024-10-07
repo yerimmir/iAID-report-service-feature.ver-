@@ -25,8 +25,10 @@ type SarcopeniaResult_TYPE_LIST =
 
 export enum StatisticalAnalysisType {
     SMA_HEIGHT2 = "sma_height2",
-    MUSCLE_AGE = "muscle_age"
+    MUSCLE_AGE = "muscle_age",
+    SMA_BMI = "sma_bmi"
 }
+
 type StatisticalAnalysis_TYPE_LIST =
     typeof StatisticalAnalysisType[keyof typeof StatisticalAnalysisType];
 

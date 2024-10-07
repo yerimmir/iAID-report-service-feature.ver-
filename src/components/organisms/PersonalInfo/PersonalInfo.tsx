@@ -13,7 +13,6 @@ export interface PersonalInfoProps {
    */
   className?: string;
   personalInfo?: IPersonalInfo;
-  QRImage?: string; // Img Component를 밖에서 그리도록 (renderItem)
   containerStyle?: object;
 }
 
@@ -24,10 +23,11 @@ const styles = StyleSheet.create({
     width: "25px",
   },
   keyContainerStyle: {
-    width: "25px",
+    width: "40px",
   },
   valueLabelStyle: {
-    textAlign: "left",
+    textAlign: "center",
+    margin: "0 auto"
   },
   valueLabelContainerStyle: {
     // personalinfo value 값 너비 조정
@@ -40,27 +40,32 @@ const styles = StyleSheet.create({
 
   personalInfoContainerStyle: {
     display: "flex",
-    width: "200px",
+    // width: "10px",
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
   },
   infoContainerStyle: {
-    display: "flex",
-    // width: "300px",
+    // display: "flex",
+    width: "200px",
     height: "100%",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
   },
 
   //
   QRImageStyle: {
     width: "55px",
     height: "55px",
+    // width: "45px",
+    // height: "45px",
+    // margin: "2px"
   },
   QRContainerStyle: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    border: "3px solid black",
+    borderRadius: '10%',
 
     marginLeft: "20px",
   },
@@ -68,9 +73,9 @@ const styles = StyleSheet.create({
   // container
   containerStyle: {
     display: "flex",
-    width: "100%",
+    width: "70%",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
 });
@@ -97,7 +102,7 @@ const convertToPersonalInfoItems = (personalInfo) => {
       personalInfo.height >= 0 ? personalInfo.height + " cm" : 0 + "cm";
     let weight =
       personalInfo.weight >= 0 ? personalInfo.weight + " kg" : 0 + "kg";
-
+      
     switch (gender) {
       case GenderType.M:
         gender = "남";
@@ -108,11 +113,12 @@ const convertToPersonalInfoItems = (personalInfo) => {
     }
 
     const item = [
-      { attr: "이름", value: name },
-      { attr: "나이", value: age },
+      { attr: "성명", value: name },
+      { attr: "연령", value: age },
       { attr: "성별", value: gender },
-      { attr: "키", value: height },
-      { attr: "체중", value: weight },
+      { attr: "신장", value: height },
+      // { attr: "체중", value: weight },
+      // { attr: "qrcode", value: qrcode}
     ];
 
     return item;
@@ -133,6 +139,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = (props) => {
 
   useEffect(() => {
     setPersonalInfoItems(convertToPersonalInfoItems(props.personalInfo));
+    console.log("props.personalInfo", props.personalInfo);
   }, [props.personalInfo]);
 
   const renderItem = (data) => {
@@ -144,6 +151,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = (props) => {
         keyContainerStyle={styles.keyContainerStyle}
         valueLabelContainerStyle={styles.valueLabelContainerStyle}
         valueLabelStyle={styles.valueLabelStyle}
+        valueAlign="center"
       />
     );
   };
@@ -153,10 +161,14 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = (props) => {
       <View style={styles.infoContainerStyle}>
         <ListView
           items={personalInfoItems}
-          itemsInRow={3}
+          // itemsInRow={3}>
+          itemsInRow={2}
           renderItem={renderItem}
           containerStyle={{ justifyContent: "flex-start", workBreak: "keep-all" }}
         />
+      </View>
+      <View style={styles.QRContainerStyle}>
+        <Image src={props.personalInfo.qrcode} style={styles.QRImageStyle}></Image>
       </View>
     </View>
   );
@@ -166,7 +178,6 @@ PersonalInfo.defaultProps = {};
 PersonalInfo.propTypes = {
   className: PropTypes.string,
   personalInfo: PropTypes.any,
-  QRImage: PropTypes.string, // Img Component를 밖에서 그리도록 (renderItem)
   containerStyle: PropTypes.object,
 };
 

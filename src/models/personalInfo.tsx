@@ -1,4 +1,5 @@
 import { IsInt, IsString } from "class-validator";
+import { isSourceFile } from "typescript";
 
 export enum GenderType {
   M = "Male",
@@ -13,6 +14,7 @@ export interface IPersonalInfo {
   gender: GENDER_TYPE_LIST;
   height: number;
   weight: number;
+  qrcode: string;
 }
 export class PersonalInfoDTO implements IPersonalInfo {
   @IsString()
@@ -29,4 +31,7 @@ export class PersonalInfoDTO implements IPersonalInfo {
 
   @IsInt()
   weight: number;
+
+  @IsString()
+  qrcode: string;
 }
