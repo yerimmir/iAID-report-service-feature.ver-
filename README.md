@@ -1,6 +1,6 @@
 # report-service
 
-report-service
+report-service 개발 진행중인 프로그램, 현재 사용중
 
 ## 목차
 - [설치 방법](#설치-방법)
